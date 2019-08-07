@@ -1,0 +1,128 @@
+/* 
+  Written by Jane Schwab 
+  https://github.com/schwabthedeck
+  https://janeschwab.co/
+  July 2019 
+*/
+
+.instagram-container {
+  width: 100%;
+}
+#instagram-post {
+  width: 530px;
+  margin: auto;
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid rgb(219, 219, 219);
+  box-shadow: none;
+  display: block;
+  padding: 0px;
+}
+#instagram-post a:hover {
+  text-decoration: none;
+}
+/* header styles */
+#instagram-post .header {
+  height: 54px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px
+}
+#instagram-post .header .avatarContainer {
+  padding: 2px;
+  border-radius: 50%;
+}
+#instagram-post .header .avatarContainer img{
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+#instagram-post .header .headerTextContainer {
+  margin: 0 10px;
+  overflow: hidden;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+#instagram-post .header .headerTextContainer .username {
+  font-weight: 600;
+  text-overflow: ellipsis;
+  width: calc(100% - 21px);
+  white-space: nowrap;
+  display: block;
+}
+#instagram-post .header .headerTextContainer .followerCount {
+  color: #999;
+  line-height: 14px;
+  font-size: 12px;
+}
+#instagram-post .header .viewProfileButtonContainer {
+  margin-left: 15px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+}
+#instagram-post .header .viewProfileButtonContainer a.ViewProfileButton{
+  margin-left: 10px;
+  background-color: #6D6E71;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: 600;
+  padding: 5px 12px;
+  text-decoration: none;
+}
+#instagram-post .header .viewProfileButtonContainer a.ViewProfileButton:hover{
+  background-color: #333;
+  text-decoration: none;
+}
+/* image styles */
+#instagram-post .imageContent {
+  position: relative;
+  padding-bottom: 100%;
+}
+#instagram-post .imageContent a {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #fafafa;
+}
+#instagram-post .imageContent a > img {
+  width: 100%;
+}
+/* hoverCard styles */
+#instagram-post .hoverCard .primaryText {
+  background-color: #fff;
+  border-bottom: 1px solid #efefef;
+  height: 44px;
+  margin-left: 12px;
+  margin-right: 12px;
+}
+#instagram-post .hoverCard .primaryText a {
+  font-weight: 600;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 45px;
+}
+/* likes styles */
+#instagram-post .likes {
+  padding: 6px 10px;
+}
+#instagram-post .likes a {
+  font-weight: 600;
+  color: #262626;
+  text-decoration: none;
+  font-size: 14px;
+  
+}
+/* caption */
+#instagram-post .instagramCaption {
+  padding:0 10px 6px;
+}
+#instagram-post .instagramCaption a {
+  font-weight: 600;
+}

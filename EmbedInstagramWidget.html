@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Instagram Widget</title>
+
+  <!-- Written by Jane Schwab -->
+  <!-- July 2019 -->
+  <!-- https://github.com/schwabthedeck // https://janeschwab.co/ -->
+
+  <link href="styles.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="main.js"></script>
+</head>
+
+<body>
+
+  <div class="instagram-container">
+    <div id='instagram-post'>
+      <div class='header'></div>
+      <div class='imageContent'></div>
+      <div class='hoverCard'></div>
+      <div class='feedback'></div>
+      <div class='likes'></div>
+      <div class='instagramCaption'></div>
+      <div class='footer'></div>
+      <div class='error'></div>
+    </div>
+  </div>
+  <script>
+    var instagramUsername = 'perkinseastman.design'
+    function GetLatestPost() {
+      var url = 'https://www.instagram.com/' + instagramUsername + '/?__a=1';
+      $.ajax({
+        url: url,
+        type: 'GET',
+        success: onQuerySucceeded,
+        error: onQueryFailed
+      });
+    }
+
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function onQuerySucceeded(data) {
+      // need to build the content for the web part
+      var userInformation = data.graphql.user;
+      var latestPost = userInformation.edge_owner_to_timeline_media.edges[0].node;
+      var embedUrlRedirect = 'https://www.instagram.com/' + instagramUsername + '/?utm_source=ig_embed'
+
+      // header
+      var headerHTML = document.getElementsByClassName('header')[0];
+      var headerInnerHTML = '' +
+        '<div class="avatarContainer">' +
+        '<a href="' + embedUrlRedirect + '" target="_blank">' +
+        '<img src="' + userInformation.profile_pic_url + '" alt="' + instagramUsername + '">' +
+        '</a>' +
+        '</div>' +
+        '<div class="headerTextContainer">' +
+        '<a href="' + embedUrlRedirect + '" target="_blank">' +
+        '<span class="username">' + instagramUsername + '</span>' +
+        '</a>' +
+        '<div class="followerCount">' +
+        '<span>' + numberWithCommas(userInformation.edge_followed_by.count) + ' followers</span>' +
+        '</div>' +
+        '</div>' +
+        '<div class="viewProfileButtonContainer">' +
+        '<a class="ViewProfileButton" href="' + embedUrlRedirect + '">View Profile</a>' +
+        '</div>' +
+        '';
+      headerHTML.innerHTML = headerInnerHTML;
+
+      // imageContent
+      var imageContentHTML = document.getElementsByClassName('imageContent')[0];
+      var imageContentInnerHTML = '' +
+        '<a href="' + embedUrlRedirect + '" target="_blank">' +
+        '<img src="' + latestPost.thumbnail_src + '" alt="' + latestPost.accessibility_caption + '">' +
+        '</a>' +
+        '';
+      imageContentHTML.innerHTML = imageContentInnerHTML;
+
+      // hoverCard
+      var hoverCardHTML = document.getElementsByClassName('hoverCard')[0];
+      var hoverCardInnerHTML = '' +
+        '<div class="primaryText">' +
+        '<a href="' + embedUrlRedirect + '" target="_blank">View More on Instagram</a>' +
+        '</div>' +
+        '';
+      hoverCardHTML.innerHTML = hoverCardInnerHTML;
+
+      // likes
+      var likesHTML = document.getElementsByClassName('likes')[0];
+      var likesInnerHTML = '' +
+        '<a href="' + embedUrlRedirect + '" target="_blank">' + numberWithCommas(latestPost.edge_liked_by.count) + ' likes</a>' +
+        '';
+      likesHTML.innerHTML = likesInnerHTML;
+
+      // caption
+      var captionHTML = document.getElementsByClassName('instagramCaption')[0];
+      var captionInnerHTML = '' +
+        '<a href="' + embedUrlRedirect + '" target="_blank">' + instagramUsername + '</a>' +
+        '<br><br>' + latestPost.edge_media_to_caption.edges[0].node.text +
+        '';
+      captionHTML.innerHTML = captionInnerHTML;
+    }
+
+    function onQueryFailed(data) {
+      var errorContainer = document.getElementsByClassName('error')[0];
+      errorContainer.innerHTML = '<div>An error occured while retrieving ' + instagramUsername + '\'s latest post.</div><div>To view the latest posts, click <a href="https://www.instagram.com/' + instagramUsername + '" target="_blank">here</a> to view ' + instagramUsername + '\'s profile.</div>';
+    }
+
+    GetLatestPost();
+
+  </script>
+  <style>
+    .instagram-container {
+      width: 100%;
+    }
+
+    #instagram-post {
+      width: 530px;
+      margin: auto;
+      background: #fff;
+      border-radius: 3px;
+      border: 1px solid rgb(219, 219, 219);
+      box-shadow: none;
+      display: block;
+      padding: 0px;
+    }
+
+    #instagram-post a:hover {
+      text-decoration: none;
+    }
+
+    /* header styles */
+    #instagram-post .header {
+      height: 54px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px
+    }
+
+    #instagram-post .header .avatarContainer {
+      padding: 2px;
+      border-radius: 50%;
+    }
+
+    #instagram-post .header .avatarContainer img {
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+    }
+
+    #instagram-post .header .headerTextContainer {
+      margin: 0 10px;
+      overflow: hidden;
+      flex-shrink: 1;
+      flex-grow: 1;
+    }
+
+    #instagram-post .header .headerTextContainer .username {
+      font-weight: 600;
+      text-overflow: ellipsis;
+      width: calc(100% - 21px);
+      white-space: nowrap;
+      display: block;
+    }
+
+    #instagram-post .header .headerTextContainer .followerCount {
+      color: #999;
+      line-height: 14px;
+      font-size: 12px;
+    }
+
+    #instagram-post .header .viewProfileButtonContainer {
+      margin-left: 15px;
+      flex: 1 1 auto;
+      display: flex;
+      flex-flow: row;
+      justify-content: flex-end;
+    }
+
+    #instagram-post .header .viewProfileButtonContainer a.ViewProfileButton {
+      margin-left: 10px;
+      background-color: #6D6E71;
+      border-radius: 3px;
+      color: #fff;
+      font-weight: 600;
+      padding: 5px 12px;
+      text-decoration: none;
+    }
+
+    #instagram-post .header .viewProfileButtonContainer a.ViewProfileButton:hover {
+      background-color: #333;
+      text-decoration: none;
+    }
+
+    /* image styles */
+    #instagram-post .imageContent {
+      position: relative;
+      padding-bottom: 100%;
+    }
+
+    #instagram-post .imageContent a {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: #fafafa;
+    }
+
+    #instagram-post .imageContent a>img {
+      width: 100%;
+    }
+
+    /* hoverCard styles */
+    #instagram-post .hoverCard .primaryText {
+      background-color: #fff;
+      border-bottom: 1px solid #efefef;
+      height: 44px;
+      margin-left: 12px;
+      margin-right: 12px;
+    }
+
+    #instagram-post .hoverCard .primaryText a {
+      font-weight: 600;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 45px;
+    }
+
+    /* likes styles */
+    #instagram-post .likes {
+      padding: 6px 10px;
+    }
+
+    #instagram-post .likes a {
+      font-weight: 600;
+      color: #262626;
+      text-decoration: none;
+      font-size: 14px;
+
+    }
+
+    /* caption */
+    #instagram-post .instagramCaption {
+      padding: 0 10px 6px;
+    }
+
+    #instagram-post .instagramCaption a {
+      font-weight: 600;
+    }
+  </style>
+
+</body>
+
+</html>
