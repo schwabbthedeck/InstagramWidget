@@ -4,7 +4,9 @@
   https://janeschwab.co/
   July 2019 
 */
-
+html body {
+  font-family: "Libre Franklin", sans-serif;
+}
 .instagram-container {
   width: 100%;
 }
