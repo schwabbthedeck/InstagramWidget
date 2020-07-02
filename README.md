@@ -1,7 +1,7 @@
 # InstagramWidget
 A simple widget to show the latest post from a public Instagram profile. 
 
-Currently, it is not styled to make it easier for someone to add their own styles.
+_Currently, it is not styled to make it easier for someone to add their own styles._
 
 ### To Use
 Simply update the 'instagramUsername' variable on line 8 of main.js
