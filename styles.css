@@ -5,7 +5,15 @@
   July 2019 
 */
 html body {
-  font-family: "Libre Franklin", sans-serif;
+  font-family: 'Roboto Slab', serif;
+  background-color: #343a40;
+}
+a {
+  color: #3f88c5;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 .instagram-container {
   width: 100%;
@@ -19,9 +27,6 @@ html body {
   box-shadow: none;
   display: block;
   padding: 0px;
-}
-#instagram-post a:hover {
-  text-decoration: none;
 }
 /* header styles */
 #instagram-post .header {

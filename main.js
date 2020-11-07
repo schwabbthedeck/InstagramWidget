@@ -6,18 +6,30 @@
 // Update instagramUsername to change what account is shown
 
 var instagramUsername = 'minneyandmaxthecats'
+var httpRequest
 function GetLatestPost() {
   var url = 'https://www.instagram.com/' + instagramUsername + '/?__a=1';
-  $.ajax({
-    url: url,
-    type: 'GET',
-    success: onQuerySucceeded,
-    error: onQueryFailed
-  });
+  httpRequest = new XMLHttpRequest()
+  if (!httpRequest) {
+    alert('Giving up :( Cannot create an XMLHTTP instance')
+  }
+  httpRequest.onreadystatechange = requestHandleStateChange
+  httpRequest.open('GET', url)
+  httpRequest.send()
 }
 
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function requestHandleStateChange() {
+  if (httpRequest.readyState === XMLHttpRequest.DONE) {
+    if (httpRequest.status === 200) {
+      onQuerySucceeded(JSON.parse(httpRequest.responseText))
+    } else {
+      onQueryFailed()
+    }
+  }
 }
 
 function onQuerySucceeded(data) {
@@ -82,7 +94,7 @@ function onQuerySucceeded(data) {
   captionHTML.innerHTML = captionInnerHTML;
 }
 
-function onQueryFailed(data) {
+function onQueryFailed() {
   var errorContainer = document.getElementsByClassName('error')[0];
   errorContainer.innerHTML = '<div>An error occured while retrieving ' + instagramUsername + '\'s latest post.</div><div>To view the latest posts, click <a href="https://www.instagram.com/' + instagramUsername + '" target="_blank">here</a> to view ' + instagramUsername + '\'s profile.</div>';
 }
